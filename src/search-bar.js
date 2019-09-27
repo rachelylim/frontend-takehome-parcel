@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 const SearchInput = styled.input`
-	padding: 20px;
+	padding: .5em 0;
 	border: none;
 	border-bottom: 2px solid black;
 	width: 100%;

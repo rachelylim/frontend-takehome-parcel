@@ -2,7 +2,11 @@ body {
   background: #eee;
   font-family: sans-serif;
   margin: 0;
-  padding: 50px;
+  /*padding: 50px;*/
+}
+
+p {
+	margin: 0;
 }
 
 .big-lorem-ipsum {
@@ -10,4 +14,13 @@ body {
   font-weight: 300;
   margin: 0 auto;
   max-width: 15em;
+}
+
+a {	
+	color: black;
+	text-decoration: none;
+}
+
+a:hover {
+	color: darkred;
 }

@@ -5,13 +5,15 @@ const Gem = styled.div`
 	margin: 1em 0;
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
+	align-items: flex-start;
+	width: 100%;
 `;
 
 const GemInfo = styled.a`
 	text-decoration: none;
 	color: black;
 	width: 100%;
+	margin-right: 2em;
 
 	&:hover {
 		color: darkred;
@@ -25,29 +27,36 @@ const GemInfo = styled.a`
 
 const Name = styled.p`
 	font-size: 2em;
+	margin-bottom: 1em;
 `
 
 const BookmarkGem = styled.div`
 	.fa-bookmark {
 		font-size: 2em;
 		cursor: pointer;
+
+		&:hover {
+			color: darkred;
+		}
 	}
 `;
 
 class Result extends Component {
 	constructor(props) {
 		super(props);
+
 		this.state = {
-			fill: false
+			fill: localStorage[`${props.sha}`]
 		};
 	}
 
-	toggleState = () => {
-		this.setState({ fill: !this.state.fill });
+	componentWillReceiveProps(nextProps) {
+		this.setState({ fill: localStorage[`${nextProps.sha}`] })
 	}
 
 	handleSave = () => {
-
+		this.props.handleSave && this.props.handleSave(this.props);
+		this.setState({ fill: localStorage[this.props.sha] })
 	}
 
 	render() {
@@ -65,8 +74,6 @@ class Result extends Component {
 					<i
 						className={ `${fill ? 'fas' : 'far' } fa-bookmark`}
 						onClick={this.handleSave}
-						onMouseOver={this.toggleState}
-						onMouseOut={this.toggleState}
 					/>
 				</BookmarkGem>
 			</Gem>
