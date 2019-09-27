@@ -9,9 +9,9 @@ const Gem = styled.div`
 `;
 
 const GemInfo = styled.a`
-	font-size: 2em;
 	text-decoration: none;
 	color: black;
+	width: 100%;
 
 	&:hover {
 		color: darkred;
@@ -23,8 +23,8 @@ const GemInfo = styled.a`
 	}
 `;
 
-const Authors = styled.p`
-	font-size: .5em;
+const Name = styled.p`
+	font-size: 2em;
 `
 
 const BookmarkGem = styled.div`
@@ -51,14 +51,15 @@ class Result extends Component {
 	}
 
 	render() {
-		const { authors, version, name, project_uri: projectUri } = this.props;
+		const { authors, version, name, info, project_uri: projectUri } = this.props;
 		const { fill } = this.state;
 
 		return (
 			<Gem>
 				<GemInfo href={projectUri}>
-					<p>{name} <span>{version}</span></p>
-					<Authors>Authors: {authors}</Authors>
+					<Name>{name} <span>{version}</span></Name>
+					<p>{info}</p>
+					<p>Authors: {authors}</p>
 				</GemInfo>
 				<BookmarkGem>
 					<i
