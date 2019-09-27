@@ -13,7 +13,7 @@ const SearchInput = styled.input`
 class SearchBar extends Component {
 	render() {
 		return (
-			<SearchInput placeholder="Search gems" />
+			<SearchInput name='search' placeholder="Search gems" />
 		);
 	}
 }
