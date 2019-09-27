@@ -4,22 +4,24 @@ import { APP_URL } from './constants';
 
 import SearchBar from './search-bar';
 import Result from './result';
+import SavedGemsDisplay from './saved-gems';
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 3em;
+  width: 100%;
+`;
+
+const SearchContainer = styled.div`
+  width: 100%;
 `;
 
 const Form = styled.form`
-  width: 100%;
+  padding: 2em;
 `;
 
 const ResultsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 2em;
-  width: 50%;
+  padding: 2em;
 `;
 
 
@@ -28,27 +30,43 @@ class App extends Component {
     super(props);
 
     this.state = {
-      results: []
+      results: [],
+      savedGems: Object.keys(localStorage).map(key => JSON.parse(localStorage[key]))
     }
   }
+
+  handleSave = (gem) => {
+    if (localStorage[gem.sha]) {
+       localStorage.removeItem(gem.sha)
+    } else {
+      localStorage.setItem(gem.sha, JSON.stringify(gem));
+    }
+
+    this.setState({ savedGems: Object.keys(localStorage).map(key => JSON.parse(localStorage[key])) });
+  }
+
   search = (e) => {
+    e.preventDefault();
     const query = e.currentTarget.children.search.value;
 
     fetch(`${APP_URL}/api/v1/search.json?query=${query}`)
     .then(response => response.json())
-    .then(results => this.setState({ results }));
+    .then(results => this.setState({ results }) );
   }
 
   render() {
-    const { results } = this.state;
+    const { results, savedGems } = this.state;
     return (
       <Wrapper>
-        <Form onChange={this.search}>
-          <SearchBar />
-        </Form>
-        <ResultsContainer>
-          {results.map((r, i) => <Result key={i} {...r} />)}
-        </ResultsContainer>
+        <SavedGemsDisplay gems={this.state.savedGems} />
+        <SearchContainer>
+          <Form onChange={this.search} onSubmit={this.search}>
+            <SearchBar />
+          </Form>
+          <ResultsContainer>
+            {results.map((r, i) => <Result key={i} {...r} handleSave={this.handleSave} />)}
+          </ResultsContainer>
+        </SearchContainer>
       </Wrapper>
     );
   }
